@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebha</title>
+    <style>
+        *{
+      margin:0;
+      padding:0;
+    }
+        .container { 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        /*  circle counter css */
+        .circle-wrap {
+            margin: 20% auto;
+            width: 150px;
+            height: 150px;
+            background: #e6e2e7;
+            border-radius: 50%;
+            }
+            .circle-wrap .circle .mask,
+            .circle-wrap .circle .fill {
+                width: 150px;
+                height: 150px;
+                position: absolute;
+                border-radius: 50%;
+                }
+            .circle-wrap .circle .mask {
+                clip: rect(0px, 150px, 150px, 75px);
+                }
+            .circle-wrap .circle .mask .fill {
+                clip: rect(0px, 75px, 150px, 0px);
+                background-color: #9e00b1;
+                }
+            .circle-wrap .circle .mask.full,
+            .circle-wrap .circle .fill {
+            animation: fill ease-in-out 3s;
+            transform: rotate(0deg);
+            }
+                        
+                /* @keyframes fill {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(126deg);
+                }
+                } */
+            .circle-wrap .inside-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #fff;
+            color: #9e00b1;
+            line-height: 130px;
+            text-align: center;
+            margin-top: 10px;
+            margin-left: 10px;
+            position: absolute;
+            z-index: 100;
+            font-weight: 700;
+            font-size: 2em;
+            }
+            /*  end of circle counter */
+    .main-btn{
+      display: flex;
+      color: #eee;
+      background:#9e00b1;
+      border: navajowhite;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      height: 50px;
+      width: 50px;
+      margin-left: .25rem;
+    }
+       .change-btn{
+           display: flex;
+           justify-content: space-around;
+           text-align: center;
+           font-size: 15px;
+       } 
+       .top-counter{
+           display: flex;
+           flex-direction: row;
+           justify-content: space-around;
+           align-items: center;
+           text-align: center;
+           align-content: center;
+           padding: 20px;
+           width: 100%;
+       }            
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-counter">
+            <div class=''>
+                <button class= "main-btn" id="reset">reset</button>
+              </div>
+              <div class='main-btn' id = "total-counted">
+                0
+              </div>
+        </div>
+        <div class="circle-wrap" id="content">
+            <div class="circle">
+              
+              <div class="mask full">
+                <div class="fill"></div>
+              </div>
+             
+              <!-- <div class="mask half">
+                <div class="fill"></div>
+              </div> -->
+              
+              <div class="inside-circle" id = "circle-count">
+                0
+              </div>
+              
+            </div>
+        </div>
+        <div class='change-btn'>
+            <button class="main-btn" id="first">33</button>
+            <button class="main-btn" id="sec">100</button>
+            <button class="main-btn" id="third">1000</button>
+            <button class="main-btn" id="fourth">open</button>
+          </div>
+    </div>
+
+
+    <script>
+        let count = 0
+        let totalCount = 0
+        let targetCount = 0
+        const resetBtn = document.querySelector('#reset')
+        const totalCounted = document.querySelector("#total-counted")
+        const circle = document.querySelector('#content')
+        const cicleCount = document.querySelector('#circle-count')
+        const rotateCircle = document.querySelector(".circle-wrap .circle .fill ")
+  
+        const thirtythreeBtn = document.querySelector('#first')
+        const hundredBtn = document.querySelector('#sec')
+        const thoundBtn = document.querySelector('#third')
+        const openBtn = document.querySelector('#fourth')
+  
+        //style counter button
+        const btnStyle = (btn ,color,background) =>{
+          btn.style.background = color
+          btn.style.color = background
+        }
+        const mainBtn = (btn) =>{
+          btnStyle(btn,"#eee","#9e00b1")
+        }
+        const otherBtn = (btn) => {
+          btnStyle(btn,"#9e00b1","#eee")
+        }
+
+        
+        const countFunc = (num , main_Btn , btn_1, btn_2, btn_3)=>{
+          targetCount = num
+          totalCount = 0
+          count = 0 
+          mainBtn(main_Btn)
+          otherBtn(btn_1)
+          otherBtn(btn_2)
+          otherBtn(btn_3)
+          cicleCount.innerHTML = count
+          totalCounted.innerHTML  = totalCount 
+  
+        }
+
+        thirtythreeBtn.addEventListener("click",() =>countFunc(33,thirtythreeBtn,hundredBtn,thoundBtn,openBtn))
+        hundredBtn.addEventListener("click",() => countFunc(100,hundredBtn,thirtythreeBtn,thoundBtn,openBtn))
+        thoundBtn.addEventListener("click",() => countFunc(1000,thoundBtn,thirtythreeBtn,hundredBtn,openBtn))
+        openBtn.addEventListener("click",() => countFunc(9999999,openBtn,thirtythreeBtn,hundredBtn,thoundBtn))
+  
+        circle.addEventListener('click',()=>{
+            count++
+            if (count == targetCount){
+            totalCount ++
+            count = 0
+            }
+            let countValue = Math.floor(360 * (count / 100));
+
+            totalCounted.innerHTML  = totalCount 
+            cicleCount.innerHTML = count
+            rotateCircle.style.transform = `rotate(${countValue}deg)`;  
+          }
+        )
+        resetBtn.addEventListener('click',()=>{
+          count = 0
+          totalCount = 0
+          cicleCount.innerHTML = count
+          totalCounted.innerHTML  = totalCount 
+        })
+  
+  
+  
+  
+      </script>
+
+    
+</body>
+</html>
